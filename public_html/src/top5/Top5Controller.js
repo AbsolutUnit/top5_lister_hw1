@@ -80,7 +80,53 @@ export default class Top5Controller {
             deleteSpan.innerHTML = "";
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
+            document.getElementById("dialog-confirm-button").onmousedown = (event) => {
+                this.model.removeList(id);
+                modal.classList.remove("is-visible");
+                this.model.refreshList();
+            }
+            document.getElementById("dialog-cancel-button").onmousedown = (event) => {
+                modal.classList.remove("is-visible");
+            }
         }
+
+        let list_name = document.getElementById("top5-list-" + id);
+
+        list_name.onmouseover = (ev) => {
+            let focus_list = this.model.getList(id);
+            this.model.highlight_list(id);
+            // this.view.refreshLists();
+        }
+
+        list_name.onmouseout = (ev) => {
+            this.model.unhighlight_list(id);
+        }
+
+
+        
+        list_name.ondblclick = (ev) => {
+            list_name.innerHTML = "";
+            let textInput = document.createElement("input");
+            textInput.setAttribute("type", "text");
+            textInput.setAttribute("id", "top5-list-text-input-" + id);
+            textInput.setAttribute("value", this.model.getList(id).getName());
+
+            list_name.appendChild(textInput);
+            
+            textInput.ondblclick = (event) => {
+                this.ignoreParentClick(event);
+            }
+            textInput.onkeydown = (event) => {
+                if (event.key === 'Enter') {
+                    this.model.getList(id).setName(event.target.value);
+                    this.model.sortLists();
+                }
+            }
+            textInput.onblur = (event) => {
+                this.model.sortLists();
+            }
+        }
+
     }
 
     ignoreParentClick(event) {

@@ -16,6 +16,9 @@ export default class Top5View {
 
         for (let i = 0; i < lists.length; i++) {
             let list = lists[i];
+            if (list.id !== i){
+                list.id = i;
+            }
             this.appendListToView(list);
         }
     }
@@ -98,6 +101,22 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("unselected-list-card");
         listCard.classList.remove("selected-list-card");
+    }
+
+    hoverhighlightList(listId) {
+        let list_in_q = document.getElementById("top5-list-" + listId);
+        if (list_in_q.classList.contains("unselected-list-card")) {
+            list_in_q.classList.remove("unselected-list-card");
+            list_in_q.classList.add("highlighted-list-card");
+        }
+    }
+
+    unhoverhighlightList(listId) {
+        let list_in_q = document.getElementById("top5-list-" + listId);
+        if (list_in_q.classList.contains("highlighted-list-card")) {
+            list_in_q.classList.remove("highlighted-list-card");
+            list_in_q.classList.add("unselected-list-card");
+        }
     }
 
     updateToolbarButtons(model) {

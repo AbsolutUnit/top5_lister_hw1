@@ -107,6 +107,14 @@ export default class Top5Model {
         this.view.updateToolbarButtons(this);
     }
 
+    highlight_list(id) {
+        this.view.hoverhighlightList(id);
+    }
+
+    unhighlight_list(id) {
+        this.view.unhoverhighlightList(id);
+    }
+
     loadLists() {
         // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
         let recentLists = localStorage.getItem("recent_work");
@@ -128,6 +136,16 @@ export default class Top5Model {
             this.view.refreshLists(this.top5Lists);
             return true;
         }        
+    }
+
+    removeList(id) {
+        let ind = this.getListIndex(id);
+        this.top5Lists.splice(ind, 1);  
+        // this.setView(this.top5Lists);     
+    }
+
+    refreshList() {
+        this.view.refreshLists(this.top5Lists)
     }
 
     saveLists() {

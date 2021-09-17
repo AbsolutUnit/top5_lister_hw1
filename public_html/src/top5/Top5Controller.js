@@ -18,6 +18,8 @@ export default class Top5Controller {
 
     initHandlers() {
         // SETUP THE TOOLBAR BUTTON HANDLERS
+        this.model.toolup();
+        this.model.close_disabler();
         document.getElementById("add-list-button").onmousedown = (event) => {
             let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);            
             this.model.loadList(newList.id);
@@ -27,14 +29,27 @@ export default class Top5Controller {
             this.model.undo();
         }
 
+        document.getElementById("redo-button").onmousedown = (event) => {
+            this.model.redo();
+        }
+        document.getElementById("close-button").onmousedown = (event) => {
+            this.model.unselectAll();
+            this.model.workspace_clear();
+            this.model.close_disabler();
+            this.model.add_enabler();
+        }
+
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
             let item = document.getElementById("item-" + i);
+            item.setAttribute("draggable", "true")
 
             // AND FOR TEXT EDITING
+
             item.ondblclick = (ev) => {
                 if (this.model.hasCurrentList()) {
                     // CLEAR THE TEXT
+                    item.setAttribute("draggable", "false");
                     item.innerHTML = "";
 
                     // ADD A TEXT FIELD
@@ -51,12 +66,36 @@ export default class Top5Controller {
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
+                            this.model.toolup();
+                            this.model.saveLists();
+                            item.setAttribute("draggable", "true");
                         }
                     }
                     textInput.onblur = (event) => {
                         this.model.restoreList();
+                        this.model.saveLists();
+                        item.setAttribute("draggable", "true");
                     }
                 }
+            }
+
+            item.ondragover = (ev) => {
+                ev.preventDefault();
+            }
+
+            item.ondragstart = (ev) => {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            item.ondrop = (ev) => {
+                ev.preventDefault();
+                let drag_id = ev.dataTransfer.getData("text");
+                drag_id = drag_id.substring(drag_id.length - 1);
+                let drop_id = ev.target.id;
+                drop_id = drop_id.substring(drop_id.length - 1);
+                let list_ex = this.model.currentList;
+                this.model.addMoveItemTransaction(list_ex, drag_id, drop_id);
+                this.model.saveLists();
             }
         }
     }
@@ -68,6 +107,8 @@ export default class Top5Controller {
 
             // GET THE SELECTED LIST
             this.model.loadList(id);
+            this.model.close_enabler();
+            this.model.add_disabler();
         }
         // FOR DELETING THE LIST
         document.getElementById("delete-list-" + id).onmousedown = (event) => {
@@ -84,6 +125,7 @@ export default class Top5Controller {
                 this.model.removeList(id);
                 modal.classList.remove("is-visible");
                 this.model.refreshList();
+                this.model.saveLists();
             }
             document.getElementById("dialog-cancel-button").onmousedown = (event) => {
                 modal.classList.remove("is-visible");
@@ -93,7 +135,6 @@ export default class Top5Controller {
         let list_name = document.getElementById("top5-list-" + id);
 
         list_name.onmouseover = (ev) => {
-            let focus_list = this.model.getList(id);
             this.model.highlight_list(id);
             // this.view.refreshLists();
         }
@@ -120,10 +161,12 @@ export default class Top5Controller {
                 if (event.key === 'Enter') {
                     this.model.getList(id).setName(event.target.value);
                     this.model.sortLists();
+                    this.model.saveLists();
                 }
             }
             textInput.onblur = (event) => {
                 this.model.sortLists();
+                this.model.saveLists();
             }
         }
 

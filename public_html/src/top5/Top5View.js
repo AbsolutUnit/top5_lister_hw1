@@ -92,6 +92,9 @@ export default class Top5View {
     highlightList(listId) {
         // HIGHLIGHT THE LIST
         let listCard = document.getElementById("top5-list-" + listId);
+        if (listCard.classList.contains("highlighted-list-card")){
+            listCard.classList.remove("highlighted-list-card");
+        }
         listCard.classList.remove("unselected-list-card");
         listCard.classList.add("selected-list-card");
     }
@@ -126,6 +129,11 @@ export default class Top5View {
         }
         else {
             this.enableButton("undo-button");
-        }   
+        } 
+        if (!tps.hasTransactionToRedo()) {
+            this.disableButton("redo-button");
+        } else {
+            this.enableButton("redo-button");
+        }
     }
 }

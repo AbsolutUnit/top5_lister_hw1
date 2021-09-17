@@ -1,6 +1,7 @@
 import jsTPS from "../common/jsTPS.js"
 import Top5List from "./Top5List.js";
 import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
+import MoveItem_Transaction from "./transactions/MoveItem_Transaction.js";
 
 /**
  * Top5Model.js
@@ -164,10 +165,43 @@ export default class Top5Model {
         this.tps.addTransaction(transaction);
     }
 
+    addMoveItemTransaction = (list, id, newId) => {
+        let trans = new MoveItem_Transaction(list, id, newId);
+        this.tps.addTransaction(trans);
+    }
+
     changeItem(id, text) {
         this.currentList.items[id] = text;
         this.view.update(this.currentList);
         this.saveLists();
+    }
+
+    update (list){
+        this.view.update(list);
+    }
+
+    workspace_clear() {
+        this.view.clearWorkspace();
+    }
+
+    toolup() {
+        this.view.updateToolbarButtons(this);
+    }
+
+    close_disabler() {
+        this.view.disableButton("close-button");
+    }
+
+    close_enabler() {
+        this.view.enableButton("close-button");
+    }
+
+    add_disabler(){
+        this.view.disableButton("add-list-button");
+    }
+
+    add_enabler() {
+        this.view.enableButton("add-list-button");
     }
 
     // SIMPLE UNDO/REDO FUNCTIONS
@@ -177,4 +211,11 @@ export default class Top5Model {
             this.view.updateToolbarButtons(this);
         }
     }
+    redo() {
+        if (this.tps.hasTransactionToRedo()) {
+            this.tps.doTransaction();
+            this.view.updateToolbarButtons(this);
+        }
+    }
+
 }

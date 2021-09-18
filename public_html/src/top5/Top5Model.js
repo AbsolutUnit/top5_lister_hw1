@@ -108,13 +108,13 @@ export default class Top5Model {
         this.view.updateToolbarButtons(this);
     }
 
-    highlight_list(id) {
-        this.view.hoverhighlightList(id);
-    }
+    // highlight_list(id) {
+    //     this.view.hoverhighlightList(id);
+    // }
 
-    unhighlight_list(id) {
-        this.view.unhoverhighlightList(id);
-    }
+    // unhighlight_list(id) {
+    //     this.view.unhoverhighlightList(id);
+    // }
 
     loadLists() {
         // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
@@ -166,7 +166,7 @@ export default class Top5Model {
     }
 
     addMoveItemTransaction = (list, id, newId) => {
-        let trans = new MoveItem_Transaction(list, id, newId);
+        let trans = new MoveItem_Transaction(this, list, id, newId);
         this.tps.addTransaction(trans);
     }
 

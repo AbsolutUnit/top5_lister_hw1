@@ -11,7 +11,7 @@ import jsTPS_Transaction from "../../common/jsTPS.js"
 export default class MoveItem_Transaction extends jsTPS_Transaction {
     constructor(initModel, list, initOld, initNew) {
         super();
-        this.list = list.
+        this.list = list;
         this.model = initModel;
         this.oldItemIndex = initOld;
         this.newItemIndex = initNew;

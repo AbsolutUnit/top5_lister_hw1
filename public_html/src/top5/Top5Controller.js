@@ -91,8 +91,10 @@ export default class Top5Controller {
                 ev.preventDefault();
                 let drag_id = ev.dataTransfer.getData("text");
                 drag_id = drag_id.substring(drag_id.length - 1);
+                drag_id = parseInt(drag_id) - 1;
                 let drop_id = ev.target.id;
                 drop_id = drop_id.substring(drop_id.length - 1);
+                drop_id = parseInt(drop_id) - 1;
                 let list_ex = this.model.currentList;
                 this.model.addMoveItemTransaction(list_ex, drag_id, drop_id);
                 this.model.saveLists();
@@ -125,6 +127,7 @@ export default class Top5Controller {
                 this.model.removeList(id);
                 modal.classList.remove("is-visible");
                 this.model.refreshList();
+                this.model.workspace_clear();
                 this.model.saveLists();
             }
             document.getElementById("dialog-cancel-button").onmousedown = (event) => {
@@ -134,14 +137,14 @@ export default class Top5Controller {
 
         let list_name = document.getElementById("top5-list-" + id);
 
-        list_name.onmouseover = (ev) => {
-            this.model.highlight_list(id);
-            // this.view.refreshLists();
-        }
+        // list_name.onmouseover = (ev) => {
+        //     this.model.highlight_list(id);
+        //     // this.view.refreshLists();
+        // }
 
-        list_name.onmouseout = (ev) => {
-            this.model.unhighlight_list(id);
-        }
+        // list_name.onmouseout = (ev) => {
+        //     this.model.unhighlight_list(id);
+        // }
 
 
         

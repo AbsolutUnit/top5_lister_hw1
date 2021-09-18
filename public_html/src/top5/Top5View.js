@@ -106,21 +106,21 @@ export default class Top5View {
         listCard.classList.remove("selected-list-card");
     }
 
-    hoverhighlightList(listId) {
-        let list_in_q = document.getElementById("top5-list-" + listId);
-        if (list_in_q.classList.contains("unselected-list-card")) {
-            list_in_q.classList.remove("unselected-list-card");
-            list_in_q.classList.add("highlighted-list-card");
-        }
-    }
+    // hoverhighlightList(listId) {
+    //     let list_in_q = document.getElementById("top5-list-" + listId);
+    //     if (list_in_q.classList.contains("unselected-list-card")) {
+    //         list_in_q.classList.remove("unselected-list-card");
+    //         list_in_q.classList.add("highlighted-list-card");
+    //     }
+    // }
 
-    unhoverhighlightList(listId) {
-        let list_in_q = document.getElementById("top5-list-" + listId);
-        if (list_in_q.classList.contains("highlighted-list-card")) {
-            list_in_q.classList.remove("highlighted-list-card");
-            list_in_q.classList.add("unselected-list-card");
-        }
-    }
+    // unhoverhighlightList(listId) {
+    //     let list_in_q = document.getElementById("top5-list-" + listId);
+    //     if (list_in_q.classList.contains("highlighted-list-card")) {
+    //         list_in_q.classList.remove("highlighted-list-card");
+    //         list_in_q.classList.add("unselected-list-card");
+    //     }
+    // }
 
     updateToolbarButtons(model) {
         let tps = model.tps;

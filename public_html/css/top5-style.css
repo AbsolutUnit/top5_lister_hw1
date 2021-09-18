@@ -116,7 +116,7 @@ body {
   background-color: var(--swatch-complement);
 }
 
-.highlighted-list-card {
+.unselected-list-card:hover {
   background-color: var(--swatch-contrast);
   color: white;
 }

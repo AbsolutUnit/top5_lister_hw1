@@ -60,6 +60,7 @@ export default class Top5Controller {
                     textInput.setAttribute("value", this.model.currentList.getItemAt(i-1));
 
                     item.appendChild(textInput);
+                    textInput.focus();
 
                     textInput.ondblclick = (event) => {
                         this.ignoreParentClick(event);
@@ -159,7 +160,8 @@ export default class Top5Controller {
             textInput.setAttribute("value", this.model.getList(id).getName());
 
             list_name.appendChild(textInput);
-            
+            textInput.focus();
+
             textInput.ondblclick = (event) => {
                 this.ignoreParentClick(event);
             }

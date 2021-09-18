@@ -82,11 +82,13 @@ export default class Top5View {
     disableButton(id) {
         let button = document.getElementById(id);
         button.classList.add("disabled");
+        button.setAttribute("disabled", "true");
     }
 
     enableButton(id) {
         let button = document.getElementById(id);
         button.classList.remove("disabled");
+        button.removeAttribute("disabled");
     }
 
     highlightList(listId) {

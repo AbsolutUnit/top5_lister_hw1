@@ -47,6 +47,15 @@ export default class Top5Model {
         return -1;
     }
 
+    getListid(name) {
+        for (let i = 0; i < this.top5Lists.length; i++) {
+            let list = this.top5Lists[i];
+            if (list.name == name) {
+                return list.id;
+            }
+        }
+    }
+
     setView(initView) {
         this.view = initView;
     }
@@ -65,10 +74,10 @@ export default class Top5Model {
 
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
-            if (listA.getName() < listB.getName()) {
+            if (listA.getName().toLowerCase() < listB.getName().toLowerCase()) {
                 return -1;
             }
-            else if (listA.getName === listB.getName()) {
+            else if (listA.getName().toLowerCase() === listB.getName().toLowerCase()) {
                 return 0;
             }
             else {

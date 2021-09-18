@@ -37,6 +37,7 @@ export default class Top5Controller {
             this.model.workspace_clear();
             this.model.close_disabler();
             this.model.add_enabler();
+            document.getElementById("top5-statusbar").innerHTML = "";
         }
 
         // SETUP THE ITEM HANDLERS
@@ -111,6 +112,7 @@ export default class Top5Controller {
             this.model.loadList(id);
             this.model.close_enabler();
             this.model.add_disabler();
+            document.getElementById("top5-statusbar").innerHTML = "Top 5 " + this.model.top5Lists[id].getName();
         }
         // FOR DELETING THE LIST
         document.getElementById("delete-list-" + id).onmousedown = (event) => {
@@ -129,6 +131,7 @@ export default class Top5Controller {
                 this.model.refreshList();
                 this.model.workspace_clear();
                 this.model.saveLists();
+                document.getElementById("top5-statusbar").innerHTML = "";
             }
             document.getElementById("dialog-cancel-button").onmousedown = (event) => {
                 modal.classList.remove("is-visible");
@@ -165,11 +168,18 @@ export default class Top5Controller {
                     this.model.getList(id).setName(event.target.value);
                     this.model.sortLists();
                     this.model.saveLists();
+                    let iddd = this.model.getListid(event.target.value);
+                    this.model.loadList(iddd);
+                    this.model.close_enabler();
+                    this.model.add_disabler();
+                    document.getElementById("top5-statusbar").innerHTML = "Top 5 " + this.model.top5Lists[iddd].getName();
+
                 }
             }
             textInput.onblur = (event) => {
                 this.model.sortLists();
                 this.model.saveLists();
+                document.getElementById("top5-statusbar").innerHTML = "Top 5 " + this.model.top5Lists[id].getName();
             }
         }
 
